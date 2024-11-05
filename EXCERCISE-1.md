@@ -31,7 +31,7 @@ Testing will be carried out using Chrome
 
 #### Exploratory testing
 
-A section of this testing will be dedicated to exploring how features work on SauceDemo followed by suitable functional testing on noted areas afterwards
+A section of each test plan will be dedicated to exploring how that feature works on SauceDemo followed by a suite of tests per feature
 
  Other testing to be included in this project:
 
@@ -71,11 +71,110 @@ Pytest with selenium will be used for its ease of use to make requests to SauceD
 
 *Possible piece on prioritization of tests ? Critical paths, High, Medium, Low Priority tests*
 
+### Bug Reporting
+
+Any bugs found during the testing process will be documented in [BUGREPORT-1.md](/BUGREPORT-1.md) in the following format:
+
+ - Bug ID
+ - Title
+ - Description
+ - Steps to reproduce
+ - Expected Result
+ - Actual Result
+ - Severity
+ - Priority
+ - Attachments
+
 # Test Plans
 
+## Log in
 
+### Overview
 
+The objective here is to verify the core functionality of the log in mechanism and documenting any bugs found in the process
 
+### Test Scope
+
+Tests that will be in scope will be predictable tests like testing with valid/invalid/empty credentials as well as time to log in
+
+Tests that will be out of scope will include any load testing with the login mechanism to keep in line with functional verification primarily
+
+### Test types
+
+- Functional
+- Negative
+- Exploratory 
+
+### Exploratory Testing Findings
+ During testing, it was discovered that the system implements a user lockout mechanism, restricting access from logging in. This was added as a test case (TC-03) as a result
+
+### Test Cases
+
+**Test Case ID:** TC-01
+
+**Title**: Verify successful login with valid credentials
+
+**Objective:** Ensure users can log in with valid username and password
+
+**Preconditions:** User had valid account, user on login page
+
+**Steps:**
+
+1. Enter valid username
+2. Enter valid password
+3. Click login
+
+![alt text](screenshots/image.png)
+
+**Expected Result:**
+
+User redirected to site homepage without delay
+
+![alt text](screenshots/image-1.png)
+
+**Test Case ID:** TC-02
+
+**Title**: Verify invalid login with invalid credentials
+
+**Objective:** Ensure users can't log in with invalid username and password
+
+**Preconditions:** User on login page
+
+**Steps:**
+
+1. Enter invalid username
+2. Enter invalid password
+3. Click login
+
+![alt text](screenshots/image-3.png)
+
+**Expected Result:**
+
+User gets invalid login error
+
+![alt text](screenshots/image-4.png)
+
+**Test Case ID:** TC-03
+
+**Title**: Verify locked user
+
+**Objective:** Verify a user can't log in if they're a locked user
+
+**Preconditions:** User has account that is locked account, User on login page
+
+**Steps:**
+
+1. Enter valid username
+2. Enter valid password
+3. Click login
+
+![alt text](screenshots/image-5.png)
+
+**Expected Result:**
+
+User gets locked out error
+
+![alt text](screenshots/image-6.png)
 
 
 
