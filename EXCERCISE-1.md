@@ -120,8 +120,8 @@ Tests that will be out of scope will include any load testing with the login mec
 
 **Steps:**
 
-1. Enter valid username
-2. Enter valid password
+1. Enter valid username (Refer to Test Data Section)
+2. Enter valid password (Refer to Test Data Section)
 3. Click login
 
 ![alt text](screenshots/image.png)
@@ -164,8 +164,8 @@ User gets invalid login error
 
 **Steps:**
 
-1. Enter valid username
-2. Enter valid password
+1. Enter valid username (Refer to Test Data section)
+2. Enter valid password (Refer to Test Data section)
 3. Click login
 
 ![alt text](screenshots/image-5.png)
@@ -176,9 +176,19 @@ User gets locked out error
 
 ![alt text](screenshots/image-6.png)
 
+### Test Data
 
+**Valid Login**
 
+Username: standard_user
 
+Password: secret_sauce
+
+**Locked Login**
+
+Username: locked_out_user
+
+Password: secret_sauce
 
 # Decisions and Reasons
 
