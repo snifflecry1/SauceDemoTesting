@@ -110,6 +110,13 @@ Tests that will be out of scope will include any load testing with the login mec
 
 ### Test Cases
 
+**Index**
+
+1. [TC-01-Verify successful login with valid credentials](#tc-01)
+2. [TC-02-Verify invalid login with invalid credentials](#tc-02)
+3. [TC-03-Verify locked user](#tc-03)
+
+<a name="tc-01"></a>
 **Test Case ID:** TC-01
 
 **Title**: Verify successful login with valid credentials
@@ -120,8 +127,8 @@ Tests that will be out of scope will include any load testing with the login mec
 
 **Steps:**
 
-1. Enter valid username
-2. Enter valid password
+1. Enter valid username (Refer to Test Data Section)
+2. Enter valid password (Refer to Test Data Section)
 3. Click login
 
 ![alt text](screenshots/image.png)
@@ -132,6 +139,7 @@ User redirected to site homepage without delay
 
 ![alt text](screenshots/image-1.png)
 
+<a name="tc-02"></a>
 **Test Case ID:** TC-02
 
 **Title**: Verify invalid login with invalid credentials
@@ -154,6 +162,7 @@ User gets invalid login error
 
 ![alt text](screenshots/image-4.png)
 
+<a name="tc-03"></a>
 **Test Case ID:** TC-03
 
 **Title**: Verify locked user
@@ -164,8 +173,8 @@ User gets invalid login error
 
 **Steps:**
 
-1. Enter valid username
-2. Enter valid password
+1. Enter valid username (Refer to Test Data section)
+2. Enter valid password (Refer to Test Data section)
 3. Click login
 
 ![alt text](screenshots/image-5.png)
@@ -176,9 +185,19 @@ User gets locked out error
 
 ![alt text](screenshots/image-6.png)
 
+### Test Data
 
+**Valid Login - TC-01**
 
+Username: standard_user
 
+Password: secret_sauce
+
+**Locked Login - TC-03**
+
+Username: locked_out_user
+
+Password: secret_sauce
 
 # Decisions and Reasons
 
