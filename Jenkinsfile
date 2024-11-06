@@ -26,7 +26,9 @@ pipeline {
     post {
         always {
             // Archive the test results
-            archiveArtifacts artifacts: 'test-results.xml', allowEmptyArchive: true
+            node{
+                archiveArtifacts artifacts: 'test-results.xml', allowEmptyArchive: true
+            }
         }
         success {
             echo 'Tests passed successfully!'
