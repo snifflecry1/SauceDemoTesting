@@ -1,0 +1,14 @@
+version: '3'
+services:
+  jenkins:
+    build: .  # Builds the custom image from the Dockerfile in the current directory
+    user: root
+    ports:
+      - "8080:8080"  # Expose Jenkins on localhost:8080
+    volumes:
+      - jenkins_home:/var/jenkins_home  # Persist Jenkins data
+      - /var/run/docker.sock:/var/run/docker.sock  # Allows Jenkins to use Docker
+      - .:/workspace  # Mount project workspace into Jenkins
+
+volumes:
+  jenkins_home:
