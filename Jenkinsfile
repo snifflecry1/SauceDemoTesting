@@ -6,6 +6,11 @@ pipeline {
         }
     }
     stages {
+        stage('Verify Docker') {
+            steps {
+                sh 'docker --version'
+            }
+        }
         stage('Checkout Code') {
             steps {
                 checkout([$class: 'GitSCM', branches: [[name: '*/main']],
