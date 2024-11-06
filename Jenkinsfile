@@ -26,7 +26,7 @@ pipeline {
     post {
         always {
             // Archive the test results
-            node{
+            node {
                 archiveArtifacts artifacts: 'test-results.xml', allowEmptyArchive: true
             }
         }
