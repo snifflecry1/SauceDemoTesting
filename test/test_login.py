@@ -6,6 +6,9 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver import Chrome
 
+# As much as it pains me to pass passwords into code
+LOGIN_PASSWORD = "secret_sauce"
+
 @pytest.fixture(scope="function", autouse=True)
 def setup_class(request):
         chromeoptions = Options()
@@ -24,14 +27,14 @@ class TestLoginFeature:
     
     def test_valid_login(self):
         self.username.send_keys("standard_user")
-        self.password.send_keys("secret_sauce")
+        self.password.send_keys(LOGIN_PASSWORD)
         self.login_button.click()
 
         assert '<div class="app_logo">Swag Labs</div>' in self.driver.page_source
     
     @pytest.mark.parametrize("user_info, expected_time", [
-        ({"username":"standard_user", "password":"secret_sauce"}, 3),
-        ({"username":"performance_glitch_user", "password":"secret_sauce"}, 3),
+        ({"username":"standard_user", "password":LOGIN_PASSWORD}, 3),
+        ({"username":"performance_glitch_user", "password":LOGIN_PASSWORD}, 3),
     ])
     def test_login_timing(self, user_info, expected_time):
         self.username.send_keys(user_info["username"])
@@ -49,4 +52,18 @@ class TestLoginFeature:
         elapsed_time = time.time() - start_time
         assert elapsed_time <= expected_time
     
+    def test_invalid_login(self):
+        self.username.send_keys("test")
+        self.password.send_keys("test")
+        self.login_button.click()
+
+        assert 'Epic sadface: Username and password do not match any user in this service' in self.driver.page_source
+    
+    def test_locked_user(self):
+        self.username.send_keys("locked_out_user")
+        self.password.send_keys(LOGIN_PASSWORD)
+        self.login_button.click()
+
+        assert 'Epic sadface: Sorry, this user has been locked out.' in self.driver.page_source
+
     
