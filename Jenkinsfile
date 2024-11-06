@@ -1,30 +1,24 @@
 pipeline {
-    agent {
-        docker {
-            image 'python:3.9'  // Use a Python 3.9 Docker image for both dependencies and tests
-            args '-u root'  // Run as root to avoid permission issues
-        }
+    agent any  // Use any available Jenkins node
+    environment {
+        VENV_DIR = 'venv'  // Directory for the virtual environment
     }
     stages {
-        stage('Verify Docker') {
-            steps {
-                sh 'docker --version'
-            }
-        }
         stage('Checkout Code') {
             steps {
                 checkout([$class: 'GitSCM', branches: [[name: '*/main']],
                           userRemoteConfigs: [[url: 'https://github.com/snifflecry1/SauceDemoTesting.git']]])
             }
         }
-        stage('Install Dependencies') {
+        stage('Set Up Virtual Environment') {
             steps {
-                sh 'pip install -r requirements.txt'
+                sh 'python3 -m venv $VENV_DIR'
+                sh './$VENV_DIR/bin/pip install -r requirements.txt'
             }
         }
         stage('Run Tests') {
             steps {
-                sh 'pytest test --junitxml=test-results.xml'
+                sh './$VENV_DIR/bin/python -m pytest test --junitxml=test-results.xml'
             }
         }
     }
