@@ -8,7 +8,7 @@ Is a commerce website that allows user to purchase items in a cart to be paid fo
 
 ### Purpose
 
-This document outlines the test strategy for ensuring the quality and stability of the SauceDemo user interface. The primary objective is to verify that core functionalities work as expected across different browsers and devices, providing a smooth and reliable experience for end-users.
+This document outlines the test strategy for ensuring the quality and stability of the SauceDemo user interface. The primary objective is to verify that core functionalities work as expected on the chosen browser providing a smooth and reliable experience for end-users.
 
 ## Scope
 
