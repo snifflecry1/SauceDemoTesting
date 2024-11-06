@@ -1,7 +1,7 @@
 pipeline {
     agent {
         docker {
-            image 'python:3.9'  // Python image with version 3.9
+            image 'python:3.9'  // Use a Python 3.9 Docker image for both dependencies and tests
             args '-u root'  // Run as root to avoid permission issues
         }
     }
@@ -25,10 +25,7 @@ pipeline {
     }
     post {
         always {
-            // Archive the test results
-            node {
-                archiveArtifacts artifacts: 'test-results.xml', allowEmptyArchive: true
-            }
+            archiveArtifacts artifacts: 'test-results.xml', allowEmptyArchive: true
         }
         success {
             echo 'Tests passed successfully!'
