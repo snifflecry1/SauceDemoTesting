@@ -115,7 +115,6 @@ Tests that will be out of scope will include any load testing with the login mec
 1. [TC-01-Verify successful login with valid credentials](#tc-01)
 2. [TC-02-Verify invalid login with invalid credentials](#tc-02)
 3. [TC-03-Verify locked user](#tc-03)
-4. [TC-04-Verify product filtering](#tc-04)
 
 <a name="tc-01"></a>
 **Test Case ID:** TC-01
@@ -186,6 +185,32 @@ User gets locked out error
 
 ![alt text](screenshots/image-6.png)
 
+## Filtering
+
+### Overview
+
+The objective here is to verify the core functionality of the filtering mechanism and documenting any bugs found in the process
+
+### Test Scope
+
+Tests that will be in scope will involve checking output of different filtering options
+
+Tests that will be out of scope will include any load testing with the filtering mechanism to keep in line with functional verification primarily
+
+### Test types
+
+- Functional
+- Exploratory 
+
+### Exploratory Testing Findings
+ During testing, it was discovered that certain users disable or cause an error when using the filtering button, these were added as bugs to BUGREPORT-1.md
+
+### Test Cases
+
+**Index**
+
+1. [TC-04-Verify product filtering](#tc-04)
+
 <a name="tc-04"></a>
 **Test Case ID:** TC-04
 
@@ -200,7 +225,7 @@ User gets locked out error
 1. Click the filter button in the top right hand corner of the screen
 2. Click through each of the filter options
 
-![alt text](image-7.png)
+![alt text](screenshots/image-7.png)
 
 **Expected Result:**
 
