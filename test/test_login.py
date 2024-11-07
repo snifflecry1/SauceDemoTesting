@@ -26,6 +26,7 @@ def setup_class(request):
 class TestLoginFeature:
     
     def test_valid_login(self):
+        """Test to verify valid login"""
         self.username.send_keys("standard_user")
         self.password.send_keys(LOGIN_PASSWORD)
         self.login_button.click()
@@ -37,6 +38,7 @@ class TestLoginFeature:
         ({"username":"performance_glitch_user", "password":LOGIN_PASSWORD}, 3),
     ])
     def test_login_timing(self, user_info, expected_time):
+        """Test to verify logging in swiftly"""
         self.username.send_keys(user_info["username"])
         self.password.send_keys(user_info["password"])
 
@@ -53,6 +55,8 @@ class TestLoginFeature:
         assert elapsed_time <= expected_time
     
     def test_invalid_login(self):
+        """Test incorrect log in"""
+
         self.username.send_keys("test")
         self.password.send_keys("test")
         self.login_button.click()
@@ -60,6 +64,8 @@ class TestLoginFeature:
         assert 'Epic sadface: Username and password do not match any user in this service' in self.driver.page_source
     
     def test_locked_user(self):
+        """Test locked user can't log in """
+
         self.username.send_keys("locked_out_user")
         self.password.send_keys(LOGIN_PASSWORD)
         self.login_button.click()
