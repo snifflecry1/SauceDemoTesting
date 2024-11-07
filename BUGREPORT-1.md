@@ -155,3 +155,128 @@ Minor
 P3
 
 ### Attachments
+
+## B-06
+
+**Title:**
+Cart shared across users
+
+**Description:**
+When adding items to cart and logging out to log in as a different user, the same cart still exists
+
+**Prerequisite:** All users carts should be empty
+
+**Steps to reproduce**
+
+1. Log in as 'standard_user' (see Test Data Section)
+2. Add items to cart
+3. Log out
+4. Log in as any viable user
+
+**Expected Result:**
+Cart should be empty
+
+**Actual Result:**
+Cart contains items from last logged in user
+
+**Severity:**
+Major
+
+**Priority:**
+P1
+
+### Attachments
+
+## B-07
+
+**Title:**
+Product Add disabled on certain users
+
+**Description:**
+When adding items to cart on certain users, some of the product add buttons are disabled
+
+**Prerequisite:** Users cart should be empty
+
+**Steps to reproduce**
+
+1. Log in as 'problem_user' (see Test Data Section)
+2. Add all items to cart on the first page
+
+**Expected Result:**
+Cart icon should have badge with the number 6 
+
+**Actual Result:**
+Some items were not added because some of the buttons are disabled
+
+**Severity:**
+Major
+
+**Priority:**
+P2
+
+### Attachments
+
+## B-08
+
+**Title:**
+Checkout details field disabled
+
+**Description:**
+When checking out as 'problem_user' last name field disabled and can't check out
+
+**Prerequisite:** Must be logged in as 'problem_user'
+
+**Steps to reproduce**
+
+1. Add an item to cart
+2. Click the cart icon in the top right corner
+3. Click the continue button
+4. Fill in the fields with relevant details
+
+**Expected Result:**
+Each field should be available to fill in
+
+**Actual Result:**
+Last name field is disabled
+
+**Severity:**
+Moderate
+
+**Priority:**
+P3
+
+### Attachments
+
+![last name disabled](screenshots/image-13.png)
+
+## B-09
+
+**Title:**
+Can make payment without last name field
+
+**Description:**
+When finishing payment 'error_user' can complete checkout without entering last name field
+
+**Prerequisite:** Must be logged in as 'error_user'
+
+**Steps to reproduce**
+
+1. Add an item to cart
+2. Click the cart icon in the top right corner
+3. Click the continue button
+4. Fill in the details fields for the order
+5. Click finish payment
+
+**Expected Result:**
+An error should appear to fill in last name
+
+**Actual Result:**
+Confirmation of order screen displayed
+
+**Severity:**
+Minor
+
+**Priority:**
+P4
+
+### Attachments
