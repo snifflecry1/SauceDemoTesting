@@ -115,6 +115,7 @@ Tests that will be out of scope will include any load testing with the login mec
 1. [TC-01-Verify successful login with valid credentials](#tc-01)
 2. [TC-02-Verify invalid login with invalid credentials](#tc-02)
 3. [TC-03-Verify locked user](#tc-03)
+4. [TC-04-Verify product filtering](#tc-04)
 
 <a name="tc-01"></a>
 **Test Case ID:** TC-01
@@ -185,9 +186,30 @@ User gets locked out error
 
 ![alt text](screenshots/image-6.png)
 
+<a name="tc-04"></a>
+**Test Case ID:** TC-04
+
+**Title:** Verify product filtering
+
+**Objective:** Verify a user can filter the product list based on the aphabetical order or price
+
+**Precondition:** User must be logged in at the homepage
+
+**Steps**
+
+1. Click the filter button in the top right hand corner of the screen
+2. Click through each of the filter options
+
+![alt text](image-7.png)
+
+**Expected Result:**
+
+Product list is filtered based upon filter selected
+
+
 ### Test Data
 
-**Valid Login - TC-01**
+**Valid Login - (TC-01, TC-04)**
 
 Username: standard_user
 
