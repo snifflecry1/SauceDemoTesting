@@ -49,6 +49,4 @@ Once Jenkins is up and running, follow these steps to set up a pipeline job that
    - Click **"Save"** to apply the configuration.
    - To run the pipeline, click **"Build Now"** from the job's main page.
 
-## Conclusion
-You now have Jenkins set up to run the **SauceDemoTesting** pipeline. The pipeline will automatically pull code from the main branch and execute the steps defined in the `Jenkinsfile`.
 
