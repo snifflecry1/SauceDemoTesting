@@ -280,3 +280,33 @@ Minor
 P4
 
 ### Attachments
+
+## B-10
+
+**Title:**
+Invalid product description on fleece product
+
+**Description:**
+When selecting the fleece product as 'problem_user' the description from the fleece shows an 'ITEM NOT FOUND' error 
+
+**Prerequisite:** Must be logged in as 'problem_user'
+
+**Steps to reproduce**
+
+1. Select product "Sauce Labs Fleece Jacket" from the product listings
+
+**Expected Result:**
+Product description matching the product should be displayed to the user
+
+**Actual Result:**
+'ITEM NOT FOUND' description displayed for product instead
+
+**Severity:**
+Minor
+
+**Priority:**
+P4
+
+### Attachments
+
+![ITEM ERROR](screenshots/image-14.png)

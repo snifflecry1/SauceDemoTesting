@@ -65,11 +65,22 @@ Pytest with selenium will be used for its ease of use to make requests to SauceD
 
 **CI-Based Execution**
 
- *Needs to be filled in at the end explaining exactly how jenkins will be set up in a docker container to run the tests* 
+The integration tests will be run from a jenkins pipeline running from a local docker container. Please see README.md to run this on your own machine
 
 ###  Test Prioritization 
 
-*Possible piece on prioritization of tests ? Critical paths, High, Medium, Low Priority tests*
+**Overview**
+Test prioritization is important when seprating critical tests from more minor to moderate tests that may not need to be included in critical CI pipelines. Such tests may be more suitable as regression tests or to be included in nightly builds.
+
+**Rating**
+
+Tests can be prioritized on the following scale:
+
+**P1:** Always included in the CI/CD pipeline for fast feedback and quick detection of major issues.
+
+**P2:** Run in extended test pipelines that will catch significant issues that may not be urgent 
+
+**P3:** Omitted from regular CI/CD runs but included in full regression suites executed on a scheduled basis or before major releases.
 
 ### Bug Reporting
 
@@ -121,11 +132,14 @@ Tests that will be out of scope will include any load testing with the login mec
 7. [TC-07-Verify successful checkout](#tc-07)
 8. [TC-08-Verify cancel checkout](#tc-08)
 9. [TC-09-Verify cancel payment](#tc-09)
+10. [Verify product description](#tc-10)
 
 <a name="tc-01"></a>
 **Test Case ID:** TC-01
 
 **Title**: Verify successful login with valid credentials
+
+**Priority:** P1
 
 **Objective:** Ensure users can log in with valid username and password
 
@@ -150,6 +164,8 @@ User redirected to site homepage without delay
 
 **Title**: Verify invalid login with invalid credentials
 
+**Priority:** P1
+
 **Objective:** Ensure users can't log in with invalid username and password
 
 **Preconditions:** User on login page
@@ -172,6 +188,8 @@ User gets invalid login error
 **Test Case ID:** TC-03
 
 **Title**: Verify locked user
+
+**Priority:** P2
 
 **Objective:** Verify a user can't log in if they're a locked user
 
@@ -217,6 +235,8 @@ Tests that will be out of scope will include any load testing with the filtering
 **Test Case ID:** TC-04
 
 **Title:** Verify product filtering
+
+**Priority:** P3
 
 **Objective:** Verify a user can filter the product list based on the aphabetical order or price
 
@@ -265,6 +285,8 @@ These were added as bugs to BUGREPORT-1.md
 
 **Title:** Add cart products
 
+**Priority:** P1
+
 **Objective:** Verify a user can add products to cart
 
 **Precondition:** User must be logged in at the homepage (See Test Data section)
@@ -284,6 +306,8 @@ Shopping cart icon should display a number that increments for each item added. 
 **Test Case ID:** TC-06
 
 **Title:** Remove cart products
+
+**Priority: P1**
 
 **Objective:** Verify a user can remove products from cart
 
@@ -329,6 +353,8 @@ Tests that will be out of scope will include any load testing with the checkout 
 
 **Title:** Verify successful checkout
 
+**Priority:** P1
+
 **Objective:** Verify a user can checkout items in cart
 
 **Precondition:** User must be logged in at the homepage (See Test Data section), Have items in their cart
@@ -352,6 +378,8 @@ A confirmation message should be displayed about your order
 
 **Title:** Verify cancel checkout
 
+**Priority:** P1
+
 **Objective:** Verify a user can cancel a checkout
 
 **Precondition:** User must be logged in, must be in checkout screen
@@ -369,6 +397,8 @@ User should be brought back to the home page
 
 **Title:** Verify cancel payment
 
+**Priority:** P1
+
 **Objective:** Verify a user can cancel a payment
 
 **Precondition:** User must be logged in, must be in payment screen
@@ -381,6 +411,47 @@ User should be brought back to the home page
 
 User should be brought back to the checkout screen
 
+## Product View
+
+### Overview
+
+The objective here is to verify the core functionality of selecting a product for more details while logging bugs in the process
+
+### Test Scope
+
+The only test in scope will be to verify button functionality brings the user to the product view screen for more details
+
+Tests that will be out of scope will include any load testing with the product view mechanism to keep in line with functional verification primarily
+
+### Test types
+
+- Functional
+- Exploratory 
+
+### Exploratory Testing Findings
+
+ During testing, it was discovered that certain users on selecting certain products the details page shows error information. This was reported in BUGREPORT-1.md
+
+### Test Cases
+
+<a name="tc-10"></a>
+**Test Case ID:** TC-10
+
+**Title:** Verify product description
+
+**Priority:** P2
+
+**Objective:** Verify a user can view more information on a product on selecting it
+
+**Precondition:** User must be logged in at home screen
+
+**Steps**
+
+1. Click a product's title from the product listing
+
+**Expected Result:**
+
+User should be brought to the product listing's information screen
 
 ### Test Data
 
@@ -402,11 +473,21 @@ Password: secret_sauce
 
 ## Login
 
-During testing I initially had a test case to time log in using 'performance_glitch_user' that would of caused the test to fail and show as a pipeline fail on jenkins. For the purpose of having all test pass I noted this test case and continued with only passing test cases
+### Timed Logins
+I included a test case to check swift login time that would fail if using 'performance_glitch_user'. With respect to only having the pipeline validating core functionality there's an argument to exclude this test as it only concerns one user making it of less priority than the others. 
+
+### Priority ratings
+
+Testing for valid/invalid/locked users would be classified as important business functionality 
+that are definitely required on regular pipeline builds
 
 ## Filtering
 
 I added testing for login in an acceptable time that is clearly a problem with filtering too. I ommitted the test to filter in an acceptable time taking the initial bug as a means to solve the general issue with performance on that user
+
+### Priority ratings
+
+I've rated the test for filtering functionality as a P3 as regardless of this feature working or not, general site functionality will operate the same way making this test more relevant to regression tests for a bug fix concering this feature outside of pipelines. I've included it in the automation tests to demonstrate some testing of the feature but acknowledge this point. 
 
 ## Cart
 
@@ -415,3 +496,24 @@ For the test to add items to a cart I thought about just adding all items on dis
 I reported a majoy bug in that the cart is shared across all users. In reality this would be a halt release until fixed major level bug but it may be expected behaviour in the context of this test site for ease of use
 
 I also reported a bug in that some product buttons didn't work when adding products to cart. This is a major bug but I have it P2 because although a company would technically be losing money if these items couldn't be bought, general userflow function is not completely disrupted
+
+### Priority ratings
+
+All test cases here rated as P1. Without the ability to add or remove items from cart would completely negate user's functionality, and lowering sales for the business. These tests should definitely be included in regular CI pipelines
+
+## Checkout
+
+Pressing the cancel button at either phase of checking out whether at the continue screen or payment screen cancels checkout but keeps the products in cart. It's debatable whether the items should be removed from cart also and this could be cited as a bug. I omitted it from the context of the site question only being a testing means.
+
+
+### Priority ratings
+
+All test cases here rated as P1. The user having the ability to finalise what they're actually paying for is crucial for the user experience as well as low customer churn. This functionality should definitely be included in regular CI builds
+
+## Product view
+
+For the sake of the excercise and time limits, I've only added 4 features to the automation pipeline. In this instance product view functionality would be an important test case to include in regular builds, hence why I've only explored test case layout and bugs for this feature.
+
+### Priority ratings
+
+This test case would be rated as a P1. Harming the user experience by negating the user's ability to view more details on the product could hinder their decision to actually purchase the product which affects the companies profits. Tests for this functionality should definitely be included in the CI pipeline
