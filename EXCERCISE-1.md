@@ -475,6 +475,10 @@ Password: secret_sauce
 
 One way I could have improved the test setups in each file was extracting the login part of each fixture from each of the classes and have it as a base fixture in a conftest.py file. Login was common to all feature tests therefore didn't need to be repeated
 
+## Priority
+
+It's worth noting for clarification that the bug priority scale I used here goes from P1-P5 which is entirely different to the test case priority scale going from P1-P3, the former measuring urgency to react to a bug and the latter mesauring how important a test case is relative to CI pipeline usage
+
 ## Login
 
 ### Timed Logins
