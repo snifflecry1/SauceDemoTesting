@@ -473,7 +473,7 @@ Password: secret_sauce
 
 ## Pytest
 
-One way I could have improved the test setups in each file was extracting the login part of each fixture from each of the classes and have it as a base fixture in a conftest.py file. Login as common to all feature tests therefore didn't need to be repeated
+One way I could have improved the test setups in each file was extracting the login part of each fixture from each of the classes and have it as a base fixture in a conftest.py file. Login was common to all feature tests therefore didn't need to be repeated
 
 ## Login
 
