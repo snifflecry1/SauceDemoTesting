@@ -18,7 +18,12 @@ Jenkins is used to automate the testing pipeline. To set up and run Jenkins in a
 docker compose up --build
 ```
 
-This command builds and starts the Jenkins container based on the configuration defined in your `docker-compose.yml` file.
+If the above command doesn't work (I messed around installing a jenkins plugin that i didn't keep that broke docker compose for me) use these commands from root
+
+```bash
+docker build -t saucedemotest:v1 .
+docker run -d -p 8080:8080 -p 50000:50000 -e JAVA_OPTS="-Djenkins.install.runSetupWizard=false" sauceactualdemo:v1
+```
 
 ## Setting Up a Pipeline Job on Jenkins
 Once Jenkins is up and running, follow these steps to set up a pipeline job that will use the `Jenkinsfile` located in the root directory of the **SauceDemoTesting** repository:
@@ -49,4 +54,4 @@ Once Jenkins is up and running, follow these steps to set up a pipeline job that
    - Click **"Save"** to apply the configuration.
    - To run the pipeline, click **"Build Now"** from the job's main page.
 
-
+There should be a report of test output once the build finishes
