@@ -1,7 +1,7 @@
 pipeline {
-    agent any  // Use any available Jenkins node
+    agent any  
     environment {
-        VENV_DIR = 'venv'  // Directory for the virtual environment
+        VENV_DIR = 'venv'  
     }
     stages {
         stage('Checkout Code') {
@@ -18,7 +18,7 @@ pipeline {
         }
         stage('Run Tests') {
             steps {
-                sh './$VENV_DIR/bin/python -m pytest test --junitxml=test-results.xml'
+                sh './$VENV_DIR/bin/python -m pytest test/sauce_demo --junitxml=test-results.xml'
             }
         }
     }
