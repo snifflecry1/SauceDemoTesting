@@ -98,6 +98,19 @@ Any bugs found during the testing process will be documented in [BUGREPORT-1.md]
 
 # Test Plans
 
+**Index**
+
+1. [TC-01-Verify successful login with valid credentials](#tc-01)
+2. [TC-02-Verify invalid login with invalid credentials](#tc-02)
+3. [TC-03-Verify locked user](#tc-03)
+4. [TC-04-Verify product filtering](#tc-04)
+5. [TC-05-Add cart products](#tc-05)
+6. [TC-06-Remove cart products](#tc-06)
+7. [TC-07-Verify successful checkout](#tc-07)
+8. [TC-08-Verify cancel checkout](#tc-08)
+9. [TC-09-Verify cancel payment](#tc-09)
+10. [Verify product description](#tc-10)
+
 ## Log in
 
 ### Overview
@@ -120,19 +133,6 @@ Tests that will be out of scope will include any load testing with the login mec
  During testing, it was discovered that the system implements a user lockout mechanism, restricting access from logging in. This was added as a test case (TC-03) as a result
 
 ### Test Cases
-
-**Index**
-
-1. [TC-01-Verify successful login with valid credentials](#tc-01)
-2. [TC-02-Verify invalid login with invalid credentials](#tc-02)
-3. [TC-03-Verify locked user](#tc-03)
-4. [TC-04-Verify product filtering](#tc-04)
-5. [TC-05-Add cart products](#tc-05)
-6. [TC-06-Remove cart products](#tc-06)
-7. [TC-07-Verify successful checkout](#tc-07)
-8. [TC-08-Verify cancel checkout](#tc-08)
-9. [TC-09-Verify cancel payment](#tc-09)
-10. [Verify product description](#tc-10)
 
 <a name="tc-01"></a>
 **Test Case ID:** TC-01

@@ -55,3 +55,23 @@ Once Jenkins is up and running, follow these steps to set up a pipeline job that
    - To run the pipeline, click **"Build Now"** from the job's main page.
 
 There should be a report of test output once the build finishes
+
+# PetShop testing
+
+## Setup
+
+To run tests for excercise-2:
+
+ - Set up a python venv with
+   ```
+   python3 -m venv testenv
+   source testenv/bin/activate
+   pip install -r requirements-2.txt
+   ```
+- Run the tests with logs from root using
+   ```
+   pytest tests/petstore/test_petstore -o log_cli=true --log-cli-level=INFO
+   ```
+- You can also run a specific class of tests or method using the following format seperated by ':'
+   ```
+   pytest tests/petstore/test_petstore.py:<test class to run>:<test method to run>
