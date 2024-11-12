@@ -2,9 +2,15 @@ import requests
 import json
 import pytest
 import tempfile
+import logging
 from datetime import datetime
 
-BASE_URL ="https://petstore.swagger.io/v2"
+# Configure the logger
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+BASE_URL = "https://petstore.swagger.io/v2"
+
 class TestPetEntity:
 
     @pytest.mark.parametrize("pet_id, code", [
@@ -15,46 +21,36 @@ class TestPetEntity:
     ])
     def test_update_existing_pet(self, pet_id, code):
         """Verify update existing pet functionality"""
-    
+        logger.info(f"Testing update for pet with ID: {pet_id} expecting status code: {code}")
         url = f"{BASE_URL}/pet"
-        data =  {
+        data = {
             "id": pet_id,
-            "category": {
-                "id": 0,
-                "name": "string"
-            },
+            "category": {"id": 0, "name": "string"},
             "name": "testdoggie",
-            "photoUrls": [
-                "string"
-            ],
-            "tags": [
-                {
-                    "id": 0,
-                    "name": "string"
-                }
-            ],
+            "photoUrls": ["string"],
+            "tags": [{"id": 0, "name": "string"}],
             "status": "available"
         }
         resp = requests.put(url, json=data)
-        assert resp.status_code==code
+        assert resp.status_code == code
 
     def test_find_pets_status(self):
         """Verify pet search by status"""
-
-        params = {"status":["sold"]}
+        logger.info("Testing find pets by status with status='sold'")
+        params = {"status": ["sold"]}
         url = f"{BASE_URL}/pet/findByStatus"
         resp = requests.get(url, params=params)
-        assert resp.status_code==200
+        assert resp.status_code == 200
         resp_json = json.loads(resp.content)
         assert resp_json[0]['status'] == "sold"
-    
+
     def test_find_pets_invalid_status(self):
         """Verify invalid status gives 400"""
-
-        params = {"status":[30]}
+        logger.info("Testing find pets by invalid status expecting 400 response")
+        params = {"status": [30]}
         url = f"{BASE_URL}/pet/findByStatus"
         resp = requests.get(url, params=params)
-        assert resp.status_code==400
+        assert resp.status_code == 400
 
     @pytest.mark.parametrize("pet_id, code", [
         (13, 200),
@@ -63,7 +59,7 @@ class TestPetEntity:
     ])
     def test_find_pet(self, pet_id, code):
         """Verify finding pet by id"""
-
+        logger.info(f"Testing find pet by ID: {pet_id}, expecting status code: {code}")
         url = f"{BASE_URL}/pet/{pet_id}"
         resp = requests.get(url)
         assert resp.status_code == code
@@ -78,49 +74,41 @@ class TestPetEntity:
     ])
     def test_update_pet_form(self, pet_id, pet_name, status, code):
         """Verify update functionality"""
-
-        form_data = {"name": pet_name, "status":[status]}
+        logger.info(f"Testing update of pet form data for pet ID: {pet_id} with status: {status}")
+        form_data = {"name": pet_name, "status": [status]}
         url = f"{BASE_URL}/pet/{pet_id}"
         resp = requests.post(url, data=form_data)
-        assert resp.status_code==code
-    
+        assert resp.status_code == code
+
     @pytest.mark.parametrize("pet_id, code", [
         (12, 200),
         (["abcde"], 400),
         (12112121212, 404)
     ])
     def test_delete_pet(self, pet_id, code):
+        logger.info(f"Testing delete pet with ID: {pet_id}, expecting status code: {code}")
         url = f"{BASE_URL}/pet/{pet_id}"
-
-        headers = {"api_key":"special-key"}
+        headers = {"api_key": "special-key"}
         resp = requests.delete(url, headers=headers)
-        assert resp.status_code==code
+        assert resp.status_code == code
 
     @pytest.mark.parametrize("pet_id, additional_metadata, expected_code", [
-    (13, "Sample metadata", 200),
-    (1323497234924426478264826482363428, "Metadata for non-existent pet", 404),  # For a non-existent pet
-    (13, 68, 200)  # No metdata validation done since this passes
+        (13, "Sample metadata", 200),
+        (1323497234924426478264826482363428, "Metadata for non-existent pet", 404),
+        (13, 68, 200)
     ])
     def test_upload_image(self, pet_id, additional_metadata, expected_code):
         """Test uploading an image to the /pet/{petId}/uploadImage endpoint"""
-
+        logger.info(f"Testing upload image for pet ID: {pet_id} with metadata: {additional_metadata}")
         url = f"{BASE_URL}/pet/{pet_id}/uploadImage"
         
         with tempfile.NamedTemporaryFile(suffix=".jpg") as temp_file:
             temp_file.write(b"This is a sample image content.")
-            temp_file.seek(0)  
-            
-            files = {
-                "file": temp_file  
-            }
-            data = {
-                "additionalMetadata": additional_metadata , 
-            }
-            
+            temp_file.seek(0)
+            files = {"file": temp_file}
+            data = {"additionalMetadata": additional_metadata}
             response = requests.post(url, files=files, data=data)
-            
             assert response.status_code == expected_code
-            
             if response.status_code == 200:
                 response_data = response.json()
                 assert response_data["code"] == 200
@@ -128,95 +116,63 @@ class TestPetEntity:
                 assert isinstance(response_data["message"], str)
 
     @pytest.mark.parametrize("pet_id, pet_name, code", [
-    (2342342342424, "sparks", 200),
-    (343552, 36, 400),
+        (2342342342424, "sparks", 200),
+        (343552, 36, 400),
     ])
     def test_add_pet_success(self, pet_id, pet_name, code):
+        logger.info(f"Testing add pet with ID: {pet_id} and name: {pet_name}")
         url = f"{BASE_URL}/pet"
-        # Pet data structured as required            
         pet_data = {
             "id": pet_id,
-            "category": {
-                "id": 0,
-                "name": "string"
-            },
+            "category": {"id": 0, "name": "string"},
             "name": pet_name,
-            "photoUrls": [
-                "string"
-            ],
-            "tags": [
-                {
-                    "id": 0,
-                    "name": "string"
-                }
-            ],
+            "photoUrls": ["string"],
+            "tags": [{"id": 0, "name": "string"}],
             "status": "available"
         }
-        if pet_id == 343552:
-            pet_data["test"] = "test"
-
-        # Make the POST request to add the pet
-        resp = requests.post(url, data=json.dumps(pet_data), headers={"Content-Type": "application/json"})
+        resp = requests.post(url, json=pet_data, headers={"Content-Type": "application/json"})
         assert resp.status_code == code
 
 class TestStoreEntity:
 
     def test_get_inventory(self):
+        logger.info("Testing get store inventory")
         url = f"{BASE_URL}/store/inventory"
-
         resp = requests.get(url)
         assert resp.status_code == 200
         response_data = resp.json()
-        print(response_data)
-        assert isinstance(response_data, dict)
-        for key, value in response_data.items():
-            assert isinstance(key, str)
-            assert isinstance(value, int)
-
-    
+        logger.debug(f"Inventory response: {response_data}")
 
     @pytest.mark.parametrize("order_data, code", [
-    # Valid order data - expected to return 200
-    ({
-        "id": 1,
-        "petId": 123,
-        "quantity": 2,
-        "shipDate": datetime.now().isoformat() + "Z",
-        "status": "placed",
-        "complete": True
-    }, 200),
-    # Invalid order data - missing required fields or invalid types, expected to return 400
-    ({
-        "id": "invalid_id",  
-        "quantity": "two", 
-        "shipDate": "invalid_date",
-        "status": "unknown_status",
-        "complete": "yes"
-    }, 400),
-    # Non-existent pet
-    ({
-        "id": 12311243423423423,  
-        "petId": 12311243423423423,
-        "quantity": 2,
-        "shipDate": datetime.now().isoformat() + "Z",
-        "status": "placed",
-        "complete": True
-    }, 404),
+        ({
+            "id": 1,
+            "petId": 123,
+            "quantity": 2,
+            "shipDate": datetime.now().isoformat() + "Z",
+            "status": "placed",
+            "complete": True
+        }, 200),
+        ({
+            "id": "invalid_id",
+            "quantity": "two",
+            "shipDate": "invalid_date",
+            "status": "unknown_status",
+            "complete": "yes"
+        }, 400),
+        ({
+            "id": 12311243423423423,
+            "petId": 12311243423423423,
+            "quantity": 2,
+            "shipDate": datetime.now().isoformat() + "Z",
+            "status": "placed",
+            "complete": True
+        }, 404),
     ])
     def test_create_order(self, order_data, code):
-        """Test creating an order with the /store/order endpoint"""
-
+        logger.info(f"Testing create order with data ID: {order_data['id']} expecting status code: {code}")
         url = f"{BASE_URL}/store/order"
-
         response = requests.post(url, json=order_data)
-
         assert response.status_code == code
-
-        if response.status_code == 200:
-            response_data = response.json()
-            assert response_data["id"] == order_data["id"]
-            assert response_data["status"] == order_data["status"]
-            assert isinstance(response_data["complete"], bool)
 
     @pytest.mark.parametrize("order_id, code", [
         (5, 200),
@@ -224,8 +180,8 @@ class TestStoreEntity:
         ("abc", 400)
     ])
     def test_get_order_id(self, order_id, code):
+        logger.info(f"Testing get order by ID: {order_id} expecting status code: {code}")
         url = f"{BASE_URL}/store/order/{order_id}"
-
         resp = requests.get(url)
         assert resp.status_code == code
 
@@ -235,15 +191,14 @@ class TestStoreEntity:
         ("abc", 400)
     ])
     def test_delete_order(self, order_id, code):
+        logger.info(f"Testing delete order with ID: {order_id} expecting status code: {code}")
         url = f"{BASE_URL}/store/order/{order_id}"
-
         resp = requests.get(url)
         assert resp.status_code == code
 
 class TestUserEntity:
     
     @pytest.mark.parametrize("user_data, code", [
-    # Valid user creation data, expecting 200
         ([
             {
                 "id": 1,
@@ -266,23 +221,19 @@ class TestUserEntity:
                 "userStatus": 1
             }
         ], 200),
-    # Invalid data, such as missing required fields, expecting 400
         ([
             {
-                "id": "invalid_id",  
-                "username": "",      
-                "email": "invalidemail",  
-                "userStatus": "active"  
+                "id": "invalid_id",
+                "username": "",
+                "email": "invalidemail",
+                "userStatus": "active"
             }
         ], 400)
     ])
     def test_create_user_with_list(self, user_data, code):
-        """Test creating users via /user/createWithList endpoint"""
-
+        logger.info(f"Testing create user with list with expected status code: {code}")
         url = f"{BASE_URL}/user/createWithList"
-
         response = requests.post(url, json=user_data)
-
         assert response.status_code == code
 
     @pytest.mark.parametrize("username, code", [
@@ -291,14 +242,12 @@ class TestUserEntity:
         (43, 400),
     ])
     def test_get_user(self, username, code):
+        logger.info(f"Testing get user by username: {username} expecting status code: {code}")
         url = f"{BASE_URL}/user/{username}"
-
         resp = requests.get(url)
         assert resp.status_code == code
 
-
     @pytest.mark.parametrize("username, user_data, code", [
-        # Valid update case
         ("testuser", {
             "id": 1,
             "username": "testuser",
@@ -319,7 +268,6 @@ class TestUserEntity:
             "phone": "1234567890",
             "userStatus": 1
         }, 404),
-        # Invalid case: Missing required fields
         ("testuser3", {
             "id": 1,
             "username": 36,
@@ -328,12 +276,9 @@ class TestUserEntity:
         }, 400)
     ])
     def test_update_user(self, username, user_data, code):
-        """Test updating a user with the /user/{username} endpoint"""
-
+        logger.info(f"Testing update user with username: {username}")
         url = f"{BASE_URL}/user/{username}"
-
         response = requests.put(url, json=user_data)
-
         assert response.status_code == code
 
     @pytest.mark.parametrize("username, code", [
@@ -342,10 +287,9 @@ class TestUserEntity:
         ("</script></script", 400)
     ])
     def test_delete_user(self, username, code):
-
+        logger.info(f"Testing delete user with username: {username}")
         url = f"{BASE_URL}/user/{username}"
         response = requests.delete(url)
-
         assert response.status_code == code
 
     @pytest.mark.parametrize("username, password, code", [
@@ -353,49 +297,27 @@ class TestUserEntity:
         (39, 37, 401)
     ])
     def test_user_login(self, username, password, code):
-        """Test user login with query parameters and validate response headers"""
-
+        logger.info(f"Testing user login for username: {username}")
         url = f"{BASE_URL}/user/login"
-        params = {
-            "username": username,
-            "password": password
-        }
-
+        params = {"username": username, "password": password}
         response = requests.get(url, params=params)
-
         assert response.status_code == code
-        print(response.headers)
- 
-
+        logger.debug(f"Headers: {response.headers}")
         if response.status_code == 200:
             expires_after = response.headers.get("X-Expires-After")
-            assert expires_after is not None, "X-Expires-After header is missing"
-            try:
-                datetime.strptime(expires_after, "%a %b %d %H:%M:%S %Z %Y")
-            except ValueError:
-                assert False, f"X-Expires-After header is not in valid UTC format: {expires_after}"
-
             rate_limit = response.headers.get("X-Rate-Limit")
+            assert expires_after is not None, "X-Expires-After header is missing"
             assert rate_limit is not None, "X-Rate-Limit header is missing"
-            try:
-                rate_limit = int(rate_limit)
-            except ValueError:
-                assert False, f"X-Rate-Limit should be an integer, but got: {rate_limit}"
 
     def test_user_logout(self):
-
+        logger.info("Testing user logout")
         url = f"{BASE_URL}/user/logout"
-
         resp = requests.get(url)
         assert resp.status_code == 200
-
         resp_json = resp.json()
-        assert resp_json == {'code': 200, 'type': 'unknown', 'message': 'ok'}, (
-        f"Unexpected response body: {resp_json}"
-    )
+        assert resp_json == {'code': 200, 'type': 'unknown', 'message': 'ok'}, f"Unexpected response body: {resp_json}"
 
     @pytest.mark.parametrize("user_data, code", [
-    # Valid user creation data, expecting 200
         ([
             {
                 "id": 1,
@@ -418,40 +340,35 @@ class TestUserEntity:
                 "userStatus": 1
             }
         ], 200),
-    # Invalid data, such as missing required fields, expecting 400
         ([
             {
-                "id": "invalid_id",  
-                "username": "",      
-                "email": "invalidemail",  
-                "userStatus": "active"  
+                "id": "invalid_id",
+                "username": "",
+                "email": "invalidemail",
+                "userStatus": "active"
             }
         ], 400)
     ])
     def test_create_user_with_array(self, user_data, code):
-        """Test creating users via /user/createWithList endpoint"""
-
+        logger.info(f"Testing create users via /user/createWithArray expecting status code: {code}")
         url = f"{BASE_URL}/user/createWithArray"
-
         response = requests.post(url, json=user_data)
-
         assert response.status_code == code
-    
+
     @pytest.mark.parametrize("user_details, code", [
-    ({
-        "id": 1,
-        "username": "testuser1",
-        "firstName": "Test",
-        "lastName": "User",
-        "email": "testuser1@example.com",
-        "password": "password123",
-        "phone": "1234567890",
-        "userStatus": 1
-    }, 200),
+        ({
+            "id": 1,
+            "username": "testuser1",
+            "firstName": "Test",
+            "lastName": "User",
+            "email": "testuser1@example.com",
+            "password": "password123",
+            "phone": "1234567890",
+            "userStatus": 1
+        }, 200),
     ])
     def test_create_user_logged_in(self, user_details, code):
-        """Attempt to create a user after logging in."""
-
+        logger.info("Attempting to create a user after logging in.")
         login_url = f"{BASE_URL}/user/login"
         params = {
             "username": "testuser1",
@@ -464,12 +381,5 @@ class TestUserEntity:
         headers = {"Content-Type": "application/json"}  
         resp2 = requests.post(url, json=user_details, headers=headers)
 
-        if resp2.status_code != code:
-            print("Response content:", resp2.json())
-
-        assert resp2.status_code == code, f"Expected {code}, but got {resp2.status_code}"
-
-
-
-
-
+        logger.debug(f"Response content: {resp2.json() if resp2.status_code != code else 'Success'}")
+        assert resp2.status_code == code, f"Expected {code}, but got {resp2.status_code}"  

@@ -68,10 +68,10 @@ To run tests for excercise-2:
    source testenv/bin/activate
    pip install -r requirements-2.txt
    ```
-- Run the tests using
+- Run the tests with logs from root using
    ```
-   pytest test_petstore.py
+   pytest tests/petstore/test_petstore -o log_cli=true --log-cli-level=INFO
    ```
 - You can also run a specific class of tests or method using the following format seperated by ':'
    ```
-   pytest test_petstore.py:<test class to run>:<test method to run>
+   pytest tests/petstore/test_petstore.py:<test class to run>:<test method to run>
