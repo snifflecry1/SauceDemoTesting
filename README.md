@@ -74,4 +74,4 @@ To run tests for excercise-2:
    ```
 - You can also run a specific class of tests or method using the following format seperated by ':'
    ```
-   pytest tests/petstore/test_petstore.py:<test class to run>:<test method to run>
+   pytest test/petstore/test_petstore.py:<test class to run>:<test method to run>
