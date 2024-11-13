@@ -70,7 +70,7 @@ To run tests for excercise-2:
    ```
 - Run the tests with logs from root using
    ```
-   pytest tests/petstore/test_petstore -o log_cli=true --log-cli-level=INFO
+   pytest test/petstore/test_petstore -o log_cli=true --log-cli-level=INFO
    ```
 - You can also run a specific class of tests or method using the following format seperated by ':'
    ```
